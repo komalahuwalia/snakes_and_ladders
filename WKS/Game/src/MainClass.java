@@ -3,15 +3,10 @@ import java.io.*; // used to allow user to input data
 public class MainClass
 {// start class
     
-    
-    
-    //Main Method
-    public static void main (String [] args) throws IOException
-    {// start main method
-        
-        //Welcoming Screen
-        
-        BufferedReader myInput2 = new BufferedReader (new InputStreamReader (System.in));
+	private static BufferedReader myInput = new BufferedReader (new InputStreamReader (System.in));
+	
+    private static void printWelcomeBoard(){
+    	
         // Print the welcome screen and instructions
         System.out.println ("\t\t\t\t\t\tWelcome To Snakes And Ladders\n\n");
         System.out.println ("\t\t\t\t\t\t\tInstructions:");
@@ -56,13 +51,20 @@ public class MainClass
         System.out.println();
         System.out.println ("----------------------------------------------------------------------------------------------------------------------------------");
         
+    }
+    
+    public static void main (String [] args) throws IOException
+    {
+        
+    	printWelcomeBoard();
+        
         
         
         
         String sGame = "y"; // decare variable used to ask user if he wants to play
         
         System.out.print ("Do you want to play? Y or N     >  "); // ask user if we wants to play the game
-        sGame = myInput2.readLine (); // reads the user's input into the variable sGame
+        sGame = myInput.readLine (); // reads the user's input into the variable sGame
         System.out.print ("\n\n\n\n\n\n");
         // While the user says yes, go to startGame method
         // startGame is fuction type method, which start the game
@@ -90,9 +92,7 @@ public class MainClass
     */
     public static String startGame (String start) throws IOException // Recieves data from the main method
     {// start startGame method
-        
-        BufferedReader myInput = new BufferedReader (new InputStreamReader (System.in));
-        
+                
         // sets important variables for the game
         // NOTE: These variables will change as the game progresses
         
