@@ -4,6 +4,13 @@ public class MainClass
 {// start class
     
 	private static BufferedReader myInput = new BufferedReader (new InputStreamReader (System.in));
+	private static final int SNAKE_POSITION_54 = 54;
+	private static final int SNAKE_POSITION_90 = 90;
+	private static final int SNAKE_POSITION_99 = 99;
+	private static final int LADDER_POSITION_9 = 9;
+	private static final int LADDER_POSITION_40 = 40; 
+	private static final int LADDER_POSITION_67 = 67;
+	private static final String COMPUTER_SNAKE_BITE_MESSAGE = "\t\t\t\t~~~~~~~~~~~~~Computer Got Bit By A Snake, HE WENT GO DOWN!!!~~~~~~~~~~~~~";
 	
     private static void printWelcomeBoard(){
     	
@@ -58,9 +65,6 @@ public class MainClass
         
     	printWelcomeBoard();
         
-        
-        
-        
         String sGame = "y"; // decare variable used to ask user if he wants to play
         
         System.out.print ("Do you want to play? Y or N     >  "); // ask user if we wants to play the game
@@ -68,9 +72,10 @@ public class MainClass
         System.out.print ("\n\n\n\n\n\n");
         // While the user says yes, go to startGame method
         // startGame is fuction type method, which start the game
+        
         while (sGame.equals ("y") || sGame.equals ("Y"))
         {
-            sGame = startGame(sGame); // give startGame a variable to work with
+            sGame = playGame(sGame); // give startGame a variable to work with
         }
         System.out.println ("\n\n\n\n\t\t\t\t\t\tSEE YA!!");
         
@@ -90,29 +95,28 @@ public class MainClass
     and setting the important varibales. It will also return a vaule to the main method, which
     will reset the game so the user can play again.
     */
-    public static String startGame (String start) throws IOException // Recieves data from the main method
+    
+    private static final int INITIAL_BOARD_LOCATION = 1;
+    private static final int DICE_INITIAL_VALUE = 0;
+	private static final String COMPUTER_LADDER_MESSAGE = "Computer Got TO A Ladder, HE WENT UP!!!";
+	private static final String USER_SNAKE_BITE_MESSAGE = "\t\t\t\t~~~~~~~~~~~~~You Got Bit By A Snake, GO DOWN!!!~~~~~~~~~~~~~";
+	private static final String USER_LADDER_MESSAGE = "\t\t\t\t~~~~~~~~~~~~~You Got A Ladder!! GO UP!!!~~~~~~~~~~~~~";
+    public static String playGame (String start) throws IOException // Recieves data from the main method
     {// start startGame method
                 
         // sets important variables for the game
         // NOTE: These variables will change as the game progresses
         
-        int userPosition = 1; // sets the default loaction for user's piece to 1
-        int compPosition = 1; // sets the default loaction for computer's piece to 1
-        int diceRoll = 0; // creates the first die
-        int diceRoll2 = 0; // creates the second die
-        int userRoll = 1; // declares what the user rolled
-        int compRoll = 1; // declares what the computer rolled
+        int userPosition = INITIAL_BOARD_LOCATION; // sets the default loaction for user's piece to 1
+        int compPosition = INITIAL_BOARD_LOCATION; // sets the default loaction for computer's piece to 1
+        int diceRoll = DICE_INITIAL_VALUE; // creates the first die
+        int diceRoll2 = DICE_INITIAL_VALUE; // creates the second die
+        int userRoll = INITIAL_BOARD_LOCATION; // declares what the user rolled
+        int compRoll = INITIAL_BOARD_LOCATION; // declares what the computer rolled
         String playAgain = "y"; // sets the play again variable
         
         // declare all the snakes and ladders in a array
-        int snakesLaddersArray [] = new int [6]; // create a 6 element array
-        // store the snakes and ladders location in the array
-        snakesLaddersArray [0] = 54;
-        snakesLaddersArray [1] = 90;
-        snakesLaddersArray [2] = 99;
-        snakesLaddersArray [3] = 9;
-        snakesLaddersArray [4] = 40;
-        snakesLaddersArray [5] = 67;
+        
         
         
         while (playAgain.equals ("y") || playAgain.equals ("Y")) // loops while the playAgaim vaiable equals "y" or "Y".
@@ -138,10 +142,10 @@ public class MainClass
             
             // check to see if user landed on top of a snake or at the bottom of a ladder
             // give getP parameters to work with, and recieve a final value which can be printed out
-            userPosition = getP(userPosition, userRoll, snakesLaddersArray);
+            userPosition = getPosition(userPosition, userRoll, false);
             // The same goes for compPosition, however compgetP gets an additional
             // parameter (userPosition) to check if user has already won
-            compPosition = compgetP(compPosition, compRoll, snakesLaddersArray, userPosition);
+            compPosition = getPosition(compPosition, compRoll, true);
             
             System.out.println("\t\t\t*************************************************************************");
             System.out.println ("\t\t\t*\t\tYou are currently on square " + userPosition + "\t\t\t*"); // print out the user's current location
@@ -174,10 +178,6 @@ public class MainClass
     }// end startGame method
     
     
-    
-    
-    
-    
     //-------------------------------------------------------------------geDice Method------------------------------------------------------------------------------
     
     /*
@@ -207,143 +207,90 @@ public class MainClass
     adjusting the user's position to mathch the snake or
     ladders value.
     */
-    public static int getP (int userPosition, int userRoll, int snakesLaddersArray []) throws IOException // recieves two parameter from startGame
+    public static int getPosition (int position, int userRoll, boolean isComputerPlaying) throws IOException // recieves two parameter from startGame
     {// start getP
         
+        if(position == SNAKE_POSITION_54) //if position equals snake 1
+        {
+            position = 19; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_SNAKE_BITE_MESSAGE);
+            }else{
+            	System.out.println (USER_SNAKE_BITE_MESSAGE);
+            }
+        }
+        else if (position == SNAKE_POSITION_90) //if position equals snake 2
+        {
+            position = 48; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_SNAKE_BITE_MESSAGE);
+            }else{
+            	System.out.println (USER_SNAKE_BITE_MESSAGE);
+            }
+            
+        }
+        else if (position == SNAKE_POSITION_99) //if position equals snake 3
+        {
+            position = 77; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_SNAKE_BITE_MESSAGE);
+            }else{
+            	System.out.println (USER_SNAKE_BITE_MESSAGE);
+            }
+        }
+        else if (position == LADDER_POSITION_9) //if position equals ladder 1
+        {
+            position = 34; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_LADDER_MESSAGE);
+            }else{
+            	 System.out.println (USER_LADDER_MESSAGE);
+            }
+           
+            
+        }
+        else if (position == LADDER_POSITION_40) //if position equals ladder 2
+        {
+            position = 64; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_LADDER_MESSAGE);
+            }else{
+            	 System.out.println (USER_LADDER_MESSAGE);
+            }
+            
+        }
+        else if (position == LADDER_POSITION_67) //if position equals ladder 3
+        {
+            
+            position = 86; // set new position
+            if(isComputerPlaying){
+            	System.out.println (COMPUTER_LADDER_MESSAGE);
+            }else{
+            	 System.out.println (USER_LADDER_MESSAGE);
+            }
+        }
         
-        if(userPosition == snakesLaddersArray[0]) //if position equals snake 1
-        {
-            userPosition = 19; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got Bit By A Snake, GO DOWN!!!~~~~~~~~~~~~~");
-        }
-        else if (userPosition == snakesLaddersArray[1]) //if position equals snake 2
-        {
-            userPosition = 48; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got Bit By A Snake, GO DOWN!!!~~~~~~~~~~~~~");
-            
-        }
-        else if (userPosition == snakesLaddersArray[2]) //if position equals snake 3
-        {
-            userPosition = 77; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got Bit By A Snake, GO DOWN!!!~~~~~~~~~~~~~");
-        }
-        else if (userPosition == snakesLaddersArray[3]) //if position equals ladder 1
-        {
-            userPosition = 34; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got A Ladder!! GO UP!!!~~~~~~~~~~~~~");
-            
-        }
-        else if (userPosition == snakesLaddersArray[4]) //if position equals ladder 2
-        {
-            userPosition = 64; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got A Ladder!! GO UP!!!~~~~~~~~~~~~~");
-            
-        }
-        else if (userPosition == snakesLaddersArray[5]) //if position equals ladder 3
-        {
-            
-            
-            userPosition = 86; // set new position
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~You Got A Ladder!! GO UP!!!~~~~~~~~~~~~~");
-        }
-        
-        if (userPosition < 0 || userPosition > 112) // This is ab ERROR TRAP to catch any unwanted system errors that may occur by chance
+        if (position < 0 || position > 112) // This is ab ERROR TRAP to catch any unwanted system errors that may occur by chance
         {
             System.out.println ("An error has occured please reset the game!!!!!!");
         }
         
-        else if (userPosition > 100) // checks if user's location if greater then a 100
+        else if (position > 100) // checks if user's location if greater then a 100
         {
-            userPosition = userPosition - userRoll; // subtract userRoll from the userposition to get back old position
+            position = position - userRoll; // subtract userRoll from the userposition to get back old position
             System.out.println ("OHHH You cant jump, you must land on a 100"); // print out the users current location
             
         }
-        else if (userPosition == 100)
+        else if (position == 100)
         {
-            System.out.println ("YOU WON, GOOD JOB!!!"); // print out that the user won
+            System.out.println ("GAME WON, GOOD JOB!!!"); // print out that the user won
             
         }
         
         
         
-        return userPosition; // return the final position to starGame: this position had gone through all checks and test and can be displayed on screen
+        return position; // return the final position to starGame: this position had gone through all checks and test and can be displayed on screen
     }// end getP
     
     
-    
-    
-    
-    
-    //-------------------------------------------------------------------compgetP Method------------------------------------------------------------------------------
-    
-    /*
-    compgetP method:
-    
-    This method is responsible for checking if the COMPUTER is on
-    top of a snake, or at the bottom of a ladder, and then
-    adjusting the compuer's position to mathch the snakes or
-    ladders value.
-    */
-    
-    public static int compgetP (int compPosition, int compRoll, int snakesLaddersArray [], int userPosition) throws IOException
-    {// start compgetP
-        
-        // NOTE: this method is similar to getP, so the comments are the same for both!!
-        // Look at getP's commments if you need help
-        
-        if(compPosition == snakesLaddersArray[0])
-        {
-            compPosition = 19;
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Computer Got Bit By A Snake, HE WENT GO DOWN!!!~~~~~~~~~~~~~");
-            
-            
-        }
-        else if (compPosition == snakesLaddersArray[1])
-        {
-            compPosition = 48;
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Computer Got Bit By A Snake, HE WENT GO DOWN!!!~~~~~~~~~~~~~");
-            
-        }
-        else if (compPosition == snakesLaddersArray[2])
-        {
-            compPosition = 77;
-            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Computer Got Bit By A Snake, HE WENT GO DOWN!!!~~~~~~~~~~~~~");
-        }
-        else if (compPosition == snakesLaddersArray[3])
-        {
-            compPosition = 34;
-            System.out.println ("Computer Got TO A Ladder, HE WENT UP!!!");
-        }
-        else if (compPosition == snakesLaddersArray[4])
-        {
-            compPosition = 64;
-            System.out.println ("Computer Got TO A Ladder, HE WENT UP!!!");
-            
-        }
-        else if (compPosition == snakesLaddersArray[5])
-        {
-            compPosition = 86;
-            System.out.println ("Computer Got TO A Ladder, HE WENT UP!!!");
-        }
-        
-        
-        if (compPosition < 0 || compPosition > 112) //  ERROR TRAP to catch any unwanted system errors that may occur by chance
-        {
-            System.out.println ("An error has occured for the computer, please reset the game!!!!!!");
-        }
-        
-        else if (compPosition > 100) // checks if computers's location if greater then a 100
-        {
-            compPosition = compPosition - compRoll; // get old position
-            System.out.println ("THE COMPUTER CAN'T JUMP!!! He must land on a 100"); // give message that the computer cant jump
-            
-        }
-        else if (compPosition == 100 && userPosition != 100)
-        {
-            System.out.println ("THE COMPUTER WON, YOU FAILED!!!"); // print out that the computer won
-            
-        }
-        
-        return compPosition; // return the final position to starGame: this position had gone through all checks and test and can be displayed on screen
-    } // end compgetPy
 }//end class
